@@ -7,11 +7,9 @@
  * @format
  * @flow
  */
-
 'use strict';
 
-const gkx = require('./gkx');
+const gkx = require("./gkx");
 
 const experimentalTreeDataSupport = gkx('draft_tree_data_support');
-
-module.exports = experimentalTreeDataSupport ? require('./DraftEditorContentsExperimental.react') : require('./DraftEditorContents-core.react');
+module.exports = experimentalTreeDataSupport ? require("./DraftEditorContentsExperimental.react") : require("./DraftEditorContents-core.react");

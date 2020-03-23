@@ -8,7 +8,6 @@
  * @flow strict
  * @emails oncall+draft_js
  */
-
 'use strict';
 
 const REGEX_BLOCK_DELIMITER = new RegExp('\r', 'g');

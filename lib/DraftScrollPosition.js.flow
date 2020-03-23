@@ -8,10 +8,9 @@
  * @flow strict
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-export type DraftScrollPosition = {
-  x: number;
-  y: number;
-};
+export type DraftScrollPosition = $ReadOnly<{|
+  x: number,
+  y: number,
+|}>;

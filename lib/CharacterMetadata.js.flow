@@ -8,29 +8,29 @@
  * @flow
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-import type { DraftInlineStyle } from './DraftInlineStyle';
+import type { DraftInlineStyle } from "./DraftInlineStyle";
 
-const { Map, OrderedSet, Record } = require('immutable');
-
-// Immutable.map is typed such that the value for every key in the map
+const {
+  Map,
+  OrderedSet,
+  Record
+} = require("immutable"); // Immutable.map is typed such that the value for every key in the map
 // must be the same type
+
+
 type CharacterMetadataConfigValueType = DraftInlineStyle | ?string;
-
 type CharacterMetadataConfig = {
-  style?: CharacterMetadataConfigValueType;
-  entity?: CharacterMetadataConfigValueType;
+  style?: CharacterMetadataConfigValueType,
+  entity?: CharacterMetadataConfigValueType,
+  ...
 };
-
 const EMPTY_SET = OrderedSet();
-
 const defaultRecord: CharacterMetadataConfig = {
   style: EMPTY_SET,
   entity: null
 };
-
 const CharacterMetadataRecord = (Record(defaultRecord): any);
 
 class CharacterMetadata extends CharacterMetadataRecord {
@@ -60,13 +60,14 @@ class CharacterMetadata extends CharacterMetadataRecord {
     const withEntity = record.getEntity() === entityKey ? record : record.set('entity', entityKey);
     return CharacterMetadata.create(withEntity);
   }
-
   /**
    * Use this function instead of the `CharacterMetadata` constructor.
    * Since most content generally uses only a very small number of
    * style/entity permutations, we can reuse these objects as often as
    * possible.
    */
+
+
   static create(config?: CharacterMetadataConfig): CharacterMetadata {
     if (!config) {
       return EMPTY;
@@ -75,12 +76,11 @@ class CharacterMetadata extends CharacterMetadataRecord {
     const defaultConfig: CharacterMetadataConfig = {
       style: EMPTY_SET,
       entity: (null: ?string)
-    };
+    }; // Fill in unspecified properties, if necessary.
 
-    // Fill in unspecified properties, if necessary.
     const configMap = Map(defaultConfig).merge(config);
-
     const existing: ?CharacterMetadata = pool.get(configMap);
+
     if (existing) {
       return existing;
     }
@@ -89,11 +89,10 @@ class CharacterMetadata extends CharacterMetadataRecord {
     pool = pool.set(configMap, newCharacter);
     return newCharacter;
   }
+
 }
 
 const EMPTY = new CharacterMetadata();
 let pool: Map<Map<any, any>, CharacterMetadata> = Map([[Map(defaultRecord), EMPTY]]);
-
 CharacterMetadata.EMPTY = EMPTY;
-
 module.exports = CharacterMetadata;

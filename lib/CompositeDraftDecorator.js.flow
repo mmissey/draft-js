@@ -8,19 +8,18 @@
  * @flow
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-import type { BlockNodeRecord } from './BlockNodeRecord';
-import type ContentState from './ContentState';
-import type { DraftDecorator } from './DraftDecorator';
+import type { BlockNodeRecord } from "./BlockNodeRecord";
+import type ContentState from "./ContentState";
+import type { DraftDecorator } from "./DraftDecorator";
 
-const Immutable = require('immutable');
+const Immutable = require("immutable");
 
-const { List } = Immutable;
-
+const {
+  List
+} = Immutable;
 const DELIMITER = '.';
-
 /**
  * A CompositeDraftDecorator traverses through a list of DraftDecorator
  * instances to identify sections of a ContentBlock that should be rendered
@@ -40,6 +39,7 @@ const DELIMITER = '.';
  * Thus, when a collision like this is encountered, the earlier match is
  * preserved and the new match is discarded.
  */
+
 class CompositeDraftDecorator {
   _decorators: $ReadOnlyArray<DraftDecorator>;
 
@@ -53,10 +53,19 @@ class CompositeDraftDecorator {
   getDecorations(block: BlockNodeRecord, contentState: ContentState): List<?string> {
     const decorations = Array(block.getText().length).fill(null);
 
-    this._decorators.forEach(( /*object*/decorator, /*number*/ii) => {
+    this._decorators.forEach((
+    /*object*/
+    decorator,
+    /*number*/
+    ii) => {
       let counter = 0;
       const strategy = decorator.strategy;
-      const callback = ( /*number*/start, /*number*/end) => {
+
+      const callback = (
+      /*number*/
+      start,
+      /*number*/
+      end) => {
         // Find out if any of our matching range is already occupied
         // by another decorator. If so, discard the match. Otherwise, store
         // the component key for rendering.
@@ -65,6 +74,7 @@ class CompositeDraftDecorator {
           counter++;
         }
       };
+
       strategy(block, callback, contentState);
     });
 
@@ -80,25 +90,29 @@ class CompositeDraftDecorator {
     const componentKey = parseInt(key.split(DELIMITER)[0], 10);
     return this._decorators[componentKey].props;
   }
-}
 
+}
 /**
  * Determine whether we can occupy the specified slice of the decorations
  * array.
  */
+
+
 function canOccupySlice(decorations: Array<?string>, start: number, end: number): boolean {
   for (let ii = start; ii < end; ii++) {
     if (decorations[ii] != null) {
       return false;
     }
   }
+
   return true;
 }
-
 /**
  * Splice the specified component into our decoration array at the desired
  * range.
  */
+
+
 function occupySlice(targetArr: Array<?string>, start: number, end: number, componentKey: string): void {
   for (let ii = start; ii < end; ii++) {
     targetArr[ii] = componentKey;

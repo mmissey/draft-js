@@ -14,29 +14,33 @@
  * This is unstable and not part of the public API and should not be used by
  * production systems. This file may be update/removed without notice.
  */
-
 'use strict';
 
-import type { BlockNode, BlockNodeConfig, BlockNodeKey } from './BlockNode';
-import type { DraftBlockType } from './DraftBlockType';
-import type { DraftInlineStyle } from './DraftInlineStyle';
+import type { BlockNode, BlockNodeConfig, BlockNodeKey } from "./BlockNode";
+import type { DraftBlockType } from "./DraftBlockType";
+import type { DraftInlineStyle } from "./DraftInlineStyle";
 
-const CharacterMetadata = require('./CharacterMetadata');
-const Immutable = require('immutable');
+const CharacterMetadata = require("./CharacterMetadata");
 
-const findRangesImmutable = require('./findRangesImmutable');
+const findRangesImmutable = require("./findRangesImmutable");
 
-const { List, Map, OrderedSet, Record, Repeat } = Immutable;
+const Immutable = require("immutable");
 
+const {
+  List,
+  Map,
+  OrderedSet,
+  Record,
+  Repeat
+} = Immutable;
 type ContentBlockNodeConfig = BlockNodeConfig & {
-  children?: List<BlockNodeKey>;
-  parent?: ?BlockNodeKey;
-  prevSibling?: ?BlockNodeKey;
-  nextSibling?: ?BlockNodeKey;
+  children?: List<BlockNodeKey>,
+  parent?: ?BlockNodeKey,
+  prevSibling?: ?BlockNodeKey,
+  nextSibling?: ?BlockNodeKey,
+  ...
 };
-
 const EMPTY_SET = OrderedSet();
-
 const defaultRecord: ContentBlockNodeConfig = {
   parent: null,
   characterList: List(),
@@ -59,7 +63,10 @@ const decorateCharacterList = (config: ContentBlockNodeConfig): ContentBlockNode
     return config;
   }
 
-  const { characterList, text } = config;
+  const {
+    characterList,
+    text
+  } = config;
 
   if (text && !characterList) {
     config.characterList = List(Repeat(CharacterMetadata.EMPTY, text.length));
@@ -68,8 +75,9 @@ const decorateCharacterList = (config: ContentBlockNodeConfig): ContentBlockNode
   return config;
 };
 
-class ContentBlockNode extends Record(defaultRecord) implements BlockNode {
+class ContentBlockNode extends (Record(defaultRecord): any) implements BlockNode {
   constructor(props: ContentBlockNodeConfig = defaultRecord) {
+    /* eslint-disable-next-line constructor-super */
     super(decorateCharacterList(props));
   }
 
@@ -134,6 +142,7 @@ class ContentBlockNode extends Record(defaultRecord) implements BlockNode {
   findEntityRanges(filterFn: (value: CharacterMetadata) => boolean, callback: (start: number, end: number) => void): void {
     findRangesImmutable(this.getCharacterList(), haveEqualEntity, filterFn, callback);
   }
+
 }
 
 module.exports = ContentBlockNode;

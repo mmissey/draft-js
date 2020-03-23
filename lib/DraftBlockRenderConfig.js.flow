@@ -8,13 +8,13 @@
  * @flow strict-local
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-const React = require('react');
+const React = require("react");
 
 export type DraftBlockRenderConfig = {
-  element: string;
-  wrapper?: React.Node;
-  aliasedElements?: Array<string>;
+  element: string,
+  wrapper?: React.Node,
+  aliasedElements?: Array<string>,
+  ...
 };

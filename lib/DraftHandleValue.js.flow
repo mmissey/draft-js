@@ -8,11 +8,7 @@
  * @flow strict
  * @emails oncall+draft_js
  */
-
-/*eslint-disable no-bitwise*/
-
 'use strict';
-
 /**
  * A type that allows us to avoid returning boolean values
  * to indicate whether an event was handled or not.

@@ -8,19 +8,17 @@
  * @flow strict-local
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-import type { BlockNodeRecord } from './BlockNodeRecord';
-
+import type { BlockNodeRecord } from "./BlockNodeRecord";
 /**
  * Find the string of text between the previous entity and the specified
  * offset. This allows us to narrow down search areas for regex matching.
  */
-function getTextAfterNearestEntity(block: BlockNodeRecord, offset: number): string {
-  let start = offset;
 
-  // Get start based on where the last entity ended.
+function getTextAfterNearestEntity(block: BlockNodeRecord, offset: number): string {
+  let start = offset; // Get start based on where the last entity ended.
+
   while (start > 0 && block.getEntityAt(start - 1) === null) {
     start--;
   }

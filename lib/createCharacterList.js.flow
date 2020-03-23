@@ -8,20 +8,25 @@
  * @flow strict-local
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-import type { DraftInlineStyle } from './DraftInlineStyle';
+import type { DraftInlineStyle } from "./DraftInlineStyle";
 
-const CharacterMetadata = require('./CharacterMetadata');
-const Immutable = require('immutable');
+const CharacterMetadata = require("./CharacterMetadata");
 
-const { List } = Immutable;
+const Immutable = require("immutable");
+
+const {
+  List
+} = Immutable;
 
 function createCharacterList(inlineStyles: Array<DraftInlineStyle>, entities: Array<?string>): List<CharacterMetadata> {
   const characterArray = inlineStyles.map((style, ii) => {
     const entity = entities[ii];
-    return CharacterMetadata.create({ style, entity });
+    return CharacterMetadata.create({
+      style,
+      entity
+    });
   });
   return List(characterArray);
 }

@@ -8,9 +8,7 @@
  * @flow strict
  * @emails oncall+draft_js
  */
-
 'use strict';
-
 /**
  * A plain object representation of an entity attribution.
  *
@@ -19,7 +17,8 @@
  */
 
 export type EntityRange = {
-  key: number;
-  offset: number;
-  length: number;
+  key: number,
+  offset: number,
+  length: number,
+  ...
 };

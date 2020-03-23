@@ -8,9 +8,7 @@
  * @flow strict-local
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-import type Immutable from 'immutable';
-
+import type Immutable from "immutable";
 export type DraftInlineStyle = Immutable.OrderedSet<string>;

@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict-local
+ * @flow strict
  * @emails oncall+draft_js
  */
-
 'use strict';
 
-const UserAgent = require('fbjs/lib/UserAgent');
+const UserAgent = require("fbjs/lib/UserAgent");
+
+const isSoftNewlineEvent = require("./isSoftNewlineEvent");
 
 const isOSX = UserAgent.isPlatform('Mac OS X');
-
 const KeyBindingUtil = {
   /**
    * Check whether the ctrlKey modifier is *not* being used in conjunction with
@@ -24,18 +24,15 @@ const KeyBindingUtil = {
   isCtrlKeyCommand: function (e: SyntheticKeyboardEvent<>): boolean {
     return !!e.ctrlKey && !e.altKey;
   },
-
   isOptionKeyCommand: function (e: SyntheticKeyboardEvent<>): boolean {
     return isOSX && e.altKey;
   },
-
   usesMacOSHeuristics: function (): boolean {
     return isOSX;
   },
-
   hasCommandModifier: function (e: SyntheticKeyboardEvent<>): boolean {
     return isOSX ? !!e.metaKey && !e.altKey : KeyBindingUtil.isCtrlKeyCommand(e);
-  }
+  },
+  isSoftNewlineEvent
 };
-
 module.exports = KeyBindingUtil;

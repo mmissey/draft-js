@@ -8,11 +8,7 @@
  * @flow strict
  * @emails oncall+draft_js
  */
-
-/*eslint-disable no-bitwise*/
-
 'use strict';
-
 /**
  * A type that allows us to avoid passing boolean arguments
  * around to indicate whether a deletion is forward or backward.
